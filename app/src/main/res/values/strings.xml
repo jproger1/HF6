@@ -2,4 +2,5 @@
     <string name="app_name">HF6</string>
     <string name="logo">Cafe logotype</string>
     <string name="title_activity_drink_category">Drink category</string>
+    <string name="drink">Drink</string>
 </resources>

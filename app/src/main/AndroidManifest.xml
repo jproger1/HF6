@@ -20,6 +20,10 @@
             android:name=".DrinkCategoryActivity"
             android:label="@string/title_activity_drink_category">
         </activity>
+        <activity
+            android:name=".DrinkActivity"
+            android:label="@string/drink">
+        </activity>
     </application>
 
 </manifest>
