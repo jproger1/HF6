@@ -2,6 +2,8 @@ package com.jproger.hf6;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,15 @@ public class DrinkCategoryActivity extends ListActivity{
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ListView listDrinks = getListView();
+
+        SQLiteOpenHelper databaseHelper = new DatabaseHelper(this);
+        try {
+            SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        }
+
+
+
+
         ArrayAdapter<Drink> listAdapter = new ArrayAdapter<Drink>(
                 this,
                 android.R.layout.simple_list_item_1,
