@@ -3,4 +3,6 @@
     <string name="logo">Cafe logotype</string>
     <string name="title_activity_drink_category">Drink category</string>
     <string name="drink">Drink</string>
+    <string name="favorite">Favorite</string>
+    <string name="favorites">Your favorite drinks:</string>
 </resources>

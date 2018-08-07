@@ -1,12 +1,16 @@
 package com.jproger.hf6;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +23,6 @@ public class DrinkActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink);
 
-
         int drinkNo = (Integer)getIntent().getExtras().get(EXTRA_DRINKNO);
 
         SQLiteOpenHelper databaseHelper = new DatabaseHelper(this);
@@ -27,7 +30,7 @@ public class DrinkActivity extends Activity {
         try {
             SQLiteDatabase db = databaseHelper.getReadableDatabase();
             Cursor cursor = db.query("DRINK",
-                    new String[] {"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID"},
+                    new String[] {"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID", "FAVORITE"},
                     "_id = ?",
                     new String[]{Integer.toString(drinkNo)},
                     null, null, null);
@@ -36,14 +39,21 @@ public class DrinkActivity extends Activity {
                 String nameText = cursor.getString(0);
                 String descriptionText = cursor.getString(1);
                 int photoId = cursor.getInt(2);
+                boolean isFavorite = (cursor.getInt(3) == 1);
 
 
                 TextView name = (TextView)findViewById(R.id.name);
                 name.setText(nameText);
+
                 TextView description = (TextView)findViewById(R.id.description);
                 description.setText(descriptionText);
+
                 ImageView photo = (ImageView)findViewById(R.id.photo);
                 photo.setImageResource(photoId);
+
+                CheckBox favorite = (CheckBox)findViewById(R.id.favorite);
+                favorite.setChecked(isFavorite);
+
                 photo.setContentDescription(nameText);
             }
             cursor.close();
@@ -53,4 +63,25 @@ public class DrinkActivity extends Activity {
             toast.show();
         }
     }
+
+    public void onFavoriteClicked(View view) {
+        int drinkNo = (Integer)getIntent().getExtras().get(EXTRA_DRINKNO);
+
+        CheckBox favorite = (CheckBox) findViewById(R.id.favorite);
+        ContentValues drinkValue = new ContentValues();
+        drinkValue.put("FAVORITE", favorite.isChecked());
+
+
+
+        SQLiteOpenHelper databaseHelper = new DatabaseHelper(this);
+        try {
+            SQLiteDatabase db = databaseHelper.getWritableDatabase();
+            db.update("DRINK", drinkValue, "_id = ?", new String[] {Integer.toString(drinkNo)});
+            db.close();
+        } catch (SQLiteException e) {
+            Toast toast = Toast.makeText(this, "Database unavaliable", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
 }
