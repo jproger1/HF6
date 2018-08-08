@@ -97,9 +97,5 @@ public class MainActivity extends AppCompatActivity {
         db.close();
     }
 
-    private class UpdateDrinkTask extends AsyncTask<Params, Progress, Result> {
-        private ContentValues drinkValues;
-    }
-
 }
 
